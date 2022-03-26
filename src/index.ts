@@ -23,6 +23,11 @@ app.get('/api/yo', (_, res) => {
     res.send(responder(data, ""))
 })
 
+app.get('/api/hey', (_, res) => {
+    const data = "hi"
+    res.send(responder(data, ""))
+})
+
 app.use((_, res) => {
     const data = "";
     res.send(responder(data, "ERROR"))
