@@ -40,3 +40,11 @@ HTTP/1.1 200 OK
 
 {"data":"","err":"ERROR"}
 ```
+
+### Docker Run
+
+Create a docker container of this app by running:
+```text
+docker pull ghcr.io/mrkresnofatih/ghcr.io/mrkresnofatih/hello-api:v1.0.1
+docker run -d --name MyHelloApi -p 3000:5000 -e HelloApiTier=prod -e HelloApiCode=ytM4dl4hcr ghcr.io/mrkresnofatih/ghcr.io/mrkresnofatih/hello-api:v1.0.1
+```
