@@ -1,0 +1,22 @@
+version: 2.1
+executors:
+  my-executor:
+    machine:
+      image: ubuntu-2204:2022.04.1
+jobs:
+  build-push-image:
+    executor: my-executor
+    steps:
+      - run:
+          name: Docker-authenticate
+          command: docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+      - run:
+          name: Docker-build
+          command: docker build -t $DOCKER_IMAGE_NAME .
+      - run:
+          name: Docker-push
+          command: docker push $DOCKER_IMAGE_NAME:<<pipeline.number>>
+workflows:
+  buildpush-image:
+    jobs:
+      - build-push-image
