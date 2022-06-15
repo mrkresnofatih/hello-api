@@ -13,10 +13,10 @@ jobs:
           command: sudo docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
       - run:
           name: Docker-build
-          command: sudo docker build -t $DOCKER_IMAGE_NAME:<<pipeline.number>> .
+          command: sudo docker build -t $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>> .
       - run:
           name: Docker-push
-          command: sudo docker push $DOCKER_IMAGE_NAME:<<pipeline.number>>
+          command: sudo docker push $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>>
 workflows:
   buildpush-image:
     jobs:
