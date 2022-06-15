@@ -9,14 +9,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Docker-authenticate
-          command: docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
-      - run:
           name: Docker-build
           command: docker build -t $DOCKER_IMAGE_NAME:<<pipeline.number>> .
       - run:
           name: Docker-push
-          command: docker push $DOCKER_IMAGE_NAME:<<pipeline.number>>
+          command: docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD && docker push $DOCKER_IMAGE_NAME:<<pipeline.number>>
 workflows:
   buildpush-image:
     jobs:
