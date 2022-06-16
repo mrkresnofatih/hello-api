@@ -25,8 +25,8 @@ jobs:
       - checkout
       - aws-cli/setup:
           profile-name: superhero-ecr
-          aws-access-key-id: $AWS_ECR_ACCESS_KEY
-          aws-secret-access-key: $AWS_ECR_SECRET_KEY
+          aws-access-key-id: AWS_ECR_ACCESS_KEY
+          aws-secret-access-key: AWS_ECR_SECRET_KEY
       - run: 
           name: AwsEcr
           command: aws ecr-public get-login-password --region us-east-1
