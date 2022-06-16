@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Docker-push
           command: sudo docker push $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>>
-      - run: awscliconfigure
+      - awscliconfigure
       - run: 
           name: AwsEcr
           command: aws ecr-public get-login-password --profile superhero-ecr --region us-east-1
