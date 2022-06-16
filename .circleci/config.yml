@@ -1,14 +1,10 @@
 version: 2.1
+orbs: 
+  aws-ecr: circleci/aws-ecr@8.1.2
 executors:
   my-executor:
     machine:
       image: ubuntu-2204:2022.04.1
-commands:
-  awscliconfigure:
-    steps:
-      - run: aws configure --profile superhero-ecr set aws_access_key_id $AWS_ECR_ACCESS_KEY
-      - run: aws configure --profile superhero-ecr set aws_secret_access_key $AWS_ECR_SECRET_KEY
-      - run: aws configure --profile superhero-ecr set region "us-east-1"
 jobs:
   build-push-image:
     executor: my-executor
@@ -23,17 +19,14 @@ jobs:
       - run:
           name: Docker-push
           command: sudo docker push $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>>
-      - awscliconfigure
-      - run: 
-          name: AwsEcr
-          command: aws ecr-public get-login-password --profile superhero-ecr --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-      - run:
-          name: Docker-Aws-Tag
-          command: sudo docker tag $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>> public.ecr.aws/g2p5t3u7/hello-hi-api:v1.0.<<pipeline.number>>
-      - run:
-          name: Docker-Aws-Push
-          command: sudo docker push public.ecr.aws/g2p5t3u7/hello-hi-api:v1.0.<<pipeline.number>>
 workflows:
+  build_and_push_image:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          aws-access-key-id: AWS_ECR_ACCESS_KEY
+          aws-secret-access-key: AWS_ECR_SECRET_KEY
+          repo: hello-hi-api
+          tag: latest,v1.0.<<pipeline.number>>
   buildpush-image:
     jobs:
       - build-push-image
