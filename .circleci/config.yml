@@ -25,7 +25,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           aws-access-key-id: AWS_ECR_ACCESS_KEY
           aws-secret-access-key: AWS_ECR_SECRET_KEY
-          repo: g2p5t3u7/hello-hi-api
+          repo: g2p5t3u7//hello-hi-api
           public-registry: true
           tag: 'latest,v1.0.1-dev'
   buildpush-image:
