@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@3.1
 executors:
   my-executor:
     machine:
@@ -17,7 +19,31 @@ jobs:
       - run:
           name: Docker-push
           command: sudo docker push $DOCKER_IMAGE_NAME:v1.0.<<pipeline.number>>
+  build-push-image-to-ecr:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          profile-name: superhero-ecr
+          aws-access-key-id: $AWS_ECR_ACCESS_KEY
+          aws-secret-access-key: $AWS_ECR_SECRET_KEY
+      - run: 
+          name: AwsEcr
+          command: aws ecr-public get-login-password --region us-east-1
+      - run:
+          name: Docker-Aws-Build
+          command: sudo docker build -t hello-hi-api .
+      - run:
+          name: Docker-Aws-Tag
+          command: sudo docker tag hello-hi-api:latest public.ecr.aws/g2p5t3u7/hello-hi-api:v1.0.<<pipeline.number>>
+      - run:
+          name: Docker-Aws-Push
+          command: sudo docker push public.ecr.aws/g2p5t3u7/hello-hi-api:v1.0.<<pipeline.number>>
 workflows:
   buildpush-image:
     jobs:
       - build-push-image
+      - build-push-image-to-ecr:
+          context: aws
+          requires:
+            - build-push-image
