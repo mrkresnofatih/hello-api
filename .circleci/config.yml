@@ -29,7 +29,7 @@ jobs:
           aws-secret-access-key: AWS_ECR_SECRET_KEY
       - run: 
           name: AwsEcr
-          command: aws ecr-public get-login-password --region us-east-1
+          command: aws ecr-public get-login-password --profile superhero-ecr --region us-east-1
       - run:
           name: Docker-Aws-Build
           command: sudo docker build -t hello-hi-api .
