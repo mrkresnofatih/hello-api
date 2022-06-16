@@ -44,6 +44,5 @@ workflows:
     jobs:
       - build-push-image
       - build-push-image-to-ecr:
-          context: aws
           requires:
             - build-push-image
