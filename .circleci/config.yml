@@ -28,7 +28,7 @@ workflows:
           registry-id: AWS_ECR_REGISTRY_ID
           repo: hello-hi-api
           public-registry: true
-          tag: 'latest,v1.0.1-dev'
+          tag: latest,v1.0.<<pipeline.number>>
   buildpush-image:
     jobs:
       - build-push-image
