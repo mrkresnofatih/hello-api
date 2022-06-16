@@ -27,7 +27,7 @@ workflows:
           aws-secret-access-key: AWS_ECR_SECRET_KEY
           repo: g2p5t3u7/hello-hi-api
           public-registry: true
-          tag: latest,v1.0.<<pipeline.number>>
+          tag: 'latest,v1.0.1-dev'
   buildpush-image:
     jobs:
       - build-push-image
